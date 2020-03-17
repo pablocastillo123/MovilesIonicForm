@@ -1,0 +1,84 @@
+<div>
+  <ion-label position="floating">Nombre del Formulario<ion-text color="danger">*</ion-text></ion-label>
+  <ion-input required type="text" [(ngModel)] = "titulo_formulario"></ion-input>
+</div>
+
+  <div *ngFor = "let i of input">
+    <div>
+      <div>
+        <ion-label>Nombre del input:</ion-label>
+        <ion-input [(ngModel)] = "titulo_input[i]"></ion-input>
+      </div>   
+
+      <div>
+        <ion-label>Tipo de Dato</ion-label>
+        <ion-select placeholder="Seleccione uno" class = "my-select" [(ngModel)] = "type_input[i]">
+          <div *ngFor = "let t of type">
+            <ion-select-option [value] = "t">{{t}}</ion-select-option>
+          </div>
+        </ion-select>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="header"> 
+      <div>
+        <ion-label>Nombre del input:</ion-label>
+        <ion-input></ion-input>
+      </div>   
+  
+      <div>
+        <ion-label>Tipo de Dato:</ion-label>
+        <ion-select placeholder="Seleccione uno">
+          <div *ngFor = "let t of type">
+            <ion-select-option [value] = "t">{{t}}</ion-select-option>
+          </div>
+        </ion-select>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <ion-fab horizontal="end">
+        <ion-fab-button (click)="eliminar()" mode="ios" size="small" color="danger">
+          <ion-icon name="trash"></ion-icon> 
+        </ion-fab-button>  
+      </ion-fab>
+  
+      <ion-fab horizontal="start">
+        <ion-fab-button (click)="agregar()" mode="ios" size="small" color="secondary">
+          <ion-icon name="add"></ion-icon> 
+        </ion-fab-button>  
+      </ion-fab>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div *ngFor = "let i of input">
+  
+  <ion-label>Nombre del input</ion-label>
+  <ion-input [(ngModel)] = "titulo_input[i]"></ion-input>
+
+  <div>
+    <ion-label>Tipo de Dato</ion-label>
+    <ion-select placeholder="Seleccione uno" class = "my-select" [(ngModel)] = "type_input[i]">
+      <div *ngFor = "let t of type">
+        <ion-select-option [value] = "t">{{t}}</ion-select-option>
+      </div>
+    </ion-select>
+  </div>
+  
+</div>
+
+<ion-toolbar>
+  <ion-button (click) = "agregar()" color = "secondary">Agregar</ion-button> 
+  <ion-button (click) = "eliminar()" color = "danger">Eliminar</ion-button>
+</ion-toolbar> -->
