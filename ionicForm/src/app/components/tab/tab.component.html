@@ -1,0 +1,10 @@
+<ion-tabs>
+
+  <ion-tab-bar slott = "bottom">
+    <ion-tab-button *ngFor = "let d of data" [tab] = "d.tab">
+      <ion-icon [name] = "d.icon"></ion-icon>
+      <ion-label>{{ d.label }}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>
