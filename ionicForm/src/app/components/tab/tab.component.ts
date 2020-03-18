@@ -13,7 +13,7 @@ export class TabComponent implements OnInit {
 
   ngOnInit() {
 
-    if(window.location.pathname == "/tabs/tab1") {
+    if(window.location.pathname == "/admin/tabs/tab1") {
       this.data.push(
         {
           tab: "tab1",
@@ -36,6 +36,24 @@ export class TabComponent implements OnInit {
           label: "Cerrar Sesion"
         },
         
+      )
+    }else {
+      this.data.push(
+      {
+        tab: "tab1",
+        icon: "person-outline",
+        label: "Perfil"
+      },
+      {
+        tab: "tab2",
+        icon: "apps-outline",
+        label: "Formularios"
+      },
+      {
+        tab: "tab3",
+        icon: "exit-outline",
+        label: "Cerrar Sesion"
+      }
       )
     }
 
