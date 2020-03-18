@@ -13,20 +13,20 @@ export class TabComponent implements OnInit {
 
   ngOnInit() {
 
-    if(window.location.pathname == "/admin/tabs/tab1") {
+    if(window.location.pathname == "/admin/tabs/formulario") {
       this.data.push(
         {
-          tab: "tab1",
+          tab: "formulario",
           icon: "copy-outline",
           label: "Formularios"
         },
         {
-          tab: "tab2",
+          tab: "estadisticas",
           icon: "stats-chart",
           label: "Estadisticas"
         },
         {
-          tab: "tab3",
+          tab: "crear",
           icon: "create-outline",
           label: "Crear"
         },
@@ -40,7 +40,7 @@ export class TabComponent implements OnInit {
     }else {
       this.data.push(
       {
-        tab: "tab1",
+        tab: "perfil",
         icon: "person-outline",
         label: "Perfil"
       },
