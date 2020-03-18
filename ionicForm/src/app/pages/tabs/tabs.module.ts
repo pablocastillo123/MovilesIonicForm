@@ -7,7 +7,7 @@ import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
 
-import { TabComponent } from '../components/tab/tab.component'
+import { TabComponent } from '../../components/tab/tab.component'
 
 @NgModule({
   imports: [

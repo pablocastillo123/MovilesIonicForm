@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module'
-import { CardformComponent } from '../components/cardform/cardform.component';
+import { ExploreContainerComponentModule } from '../../explore-container/explore-container.module'
+import { CardformComponent } from '../../components/cardform/cardform.component';
 
 @NgModule({
   imports: [

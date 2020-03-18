@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../shared/user.class'
+import { User } from '../../shared/user.class'
 import { Router } from '@angular/router';
 
 @Component({
