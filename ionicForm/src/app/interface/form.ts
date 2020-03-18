@@ -1,4 +1,4 @@
-export interface Type {
+export interface Form {
     id? : string,
     formulario: string,
     nombre_input : Array<string>,

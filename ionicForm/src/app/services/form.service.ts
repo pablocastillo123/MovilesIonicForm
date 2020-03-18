@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import  {AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore/'
 
 //Interfaces
-import { Type } from '../interface/form.interface' 
+import { Form } from '../interface/form' 
 
 //Tools
 import { Observable } from 'rxjs'
@@ -15,12 +15,12 @@ import { map } from 'rxjs/operators'
 })
 export class FormService {
 
-  private formCollection : AngularFirestoreCollection<Type>;
+  private formCollection : AngularFirestoreCollection<Form>;
 
-  private forms : Observable<Type[]>;
+  private forms : Observable<Form[]>;
 
   constructor(private db: AngularFirestore) {
-    this.formCollection= db.collection<Type>('forms')
+    this.formCollection= db.collection<Form>('forms')
     this.forms = this.formCollection.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
@@ -33,18 +33,18 @@ export class FormService {
    }
 
    getForm (id: string) {
-    return this.formCollection.doc<Type>(id).valueChanges()
+    return this.formCollection.doc<Form>(id).valueChanges()
    }
 
     getForms() {
     return this.forms
    }
 
-  updateForm (form: Type , id: string) {
-    return this.formCollection.doc<Type>(id).update(form)
+  updateForm (form: Form , id: string) {
+    return this.formCollection.doc<Form>(id).update(form)
   }
 
-  addForm (input : Type) {
+  addForm (input : Form) {
     return this.formCollection.add(input) 
   }
 
