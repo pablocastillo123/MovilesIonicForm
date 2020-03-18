@@ -6,4 +6,6 @@
 
 <ion-content>
   <app-tabs [state_tab]=false ></app-tabs>
+  <app-cardform *ngFor="let data of collec_form" [data_card]="data" [state_button]="button_user_admin">
+	</app-cardform> 
 </ion-content>

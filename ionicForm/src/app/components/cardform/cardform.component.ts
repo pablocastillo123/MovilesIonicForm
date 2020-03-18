@@ -14,10 +14,10 @@ import { NgModule } from '@angular/core';
 export class CardformComponent implements OnInit {
 
 
-  @Input() data_card = {formulario:'nombre del form',descrip:'descripcion de form'};
+  @Input() data_card;
 
   //varialbe para habilitar el boton de eliminar card
-  @Input() state_button: boolean = true;
+  @Input() state_button: boolean;
   
   constructor() { }
 

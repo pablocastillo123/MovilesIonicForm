@@ -1,7 +1,6 @@
+import { UtiltoolService } from './utiltool.service';
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/auth'
-
 import { User } from '../shared/user.class';
 
 @Injectable({
@@ -11,7 +10,7 @@ export class AuthService {
 
   public isLogged: any = false;
 
-  constructor(public afAuth: AngularFireAuth) { 
+  constructor(public afAuth: AngularFireAuth,private utilTool:UtiltoolService) { 
     afAuth.authState.subscribe(user => (this.isLogged = user));
   }
 
@@ -33,6 +32,7 @@ export class AuthService {
         user.password
       );
     }catch(error){
+      this.utilTool.presentAlert('error',error.message,'ok')
       console.log('Error onRegister',error)
     }
 

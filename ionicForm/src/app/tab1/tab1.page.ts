@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +8,11 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor(private firebase: AngularFireAuth) {}
+
+  ngOnInit(){
+    var user = this.firebase.user
+    console.log(user)
+  }
 
 }

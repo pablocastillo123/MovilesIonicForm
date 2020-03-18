@@ -6,7 +6,7 @@ import { UtiltoolService } from '../../services/utiltool.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument} from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
-
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -18,10 +18,11 @@ export class RegisterPage {
   private exp: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   private data_sexo = ['Hombre','Mujer'];
   private user_sexo:string;
+  private email_verifi:string
 
   constructor(
     private authSvc: AuthService,private router: Router,private utilTool:UtiltoolService,
-    private formBuilder: FormBuilder,private db: AngularFirestore
+    private formBuilder: FormBuilder,private db: AngularFirestore, private loadingController:LoadingController
     ){}
 
   registerForm = this.formBuilder.group({
@@ -34,65 +35,88 @@ export class RegisterPage {
 
   onRegister(){
     const reg = this.registerForm;
+    this.verifiEmail()
+    let bool:boolean = true
 
    if(Validators.required(reg.get('name')) || Validators.required(reg.get('last_name'))
       ||Validators.required(reg.get('age')) || Validators.required(reg.get('email'))
       || Validators.required(reg.get('password'))){
 
-      this.utilTool.presentAlert('error','Campos vacios','ok');
-    
-      }else{
-        if(Validators.email(reg.get('email'))){
-        this.utilTool.presentAlert('error','Direccion de email invalida','ok');
-        }
+      bool = false
+      this.utilTool.presentAlert('Error','empty fields','ok');
+    }
 
-        if(reg.get('age').value >120 && reg.get('age').value == 0){
-          this.utilTool.presentAlert('error','La edad debe ser menor de 120','ok');
-        }
-        
-        if(reg.get('password').value.length < 6){
-          console.log(reg.get('password').value.length)
-          this.utilTool.presentAlert('error','El password debe tener al menos 6 caracteres','ok');
-        }else{
-          this.register();
-        }
-      }
+   if(this.user_sexo === 'undefined'){
+    console.log('sexo if')
+    bool = false
+    this.utilTool.presentAlert('Error','empty fields','ok');
+   }
+
+   if(Validators.email(reg.get('email'))){
+      bool = false
+      this.utilTool.presentAlert('Error','invalid email address','ok');
+   }
+
+   if(this.email_verifi === reg.get('email').value){
+     console.log('if de email en uso')
+    this.utilTool.presentAlert('Error','The email address is already in use by another account.','ok');
+   }
+   
+   if(reg.get('age').value >120  || reg.get('age').value == 0){
+      bool = false
+      this.utilTool.presentAlert('Error','age must be under 120 and over 0','ok');
+   }
+   
+   if(reg.get('password').value.length < 6){
+      bool = false
+      this.utilTool.presentAlert('Error','The password must be at least 6 characters','ok');
+   }
+   
+   if(bool){
+      this.register();
+   }
+      
   }
-
 
   async register(){
-      try{
-        const id_user = this.utilTool.generateId();
-        const user = await this.authSvc.onRegister(this.user);
+    
+    const loading = await this.loadingController.create({
+      message : 'Loading.....'
+    })
+    await loading.present()
 
-        this.db.collection("usuario").doc(id_user).set({
-          id:id_user,
-          name:this.user.name,
-          last_name:this.user.last_name,
-          email:this.user.email,
-          age:this.user.age,
-          //sexo:this.user_sexo
-          //agregar user_sexo
-        }).then(res => console.log(res)).catch(err => console.log(err));
+    try{
+      const id_user = this.utilTool.generateId();
+      
+      const user = await this.authSvc.onRegister(this.user)
 
-        if(user){
+      this.db.collection("usuario").doc(id_user).set({
+        id:id_user,
+        name:this.user.name,
+        last_name:this.user.last_name,
+        email:this.user.email,
+        age:this.user.age,
+        sexo:this.user_sexo
+      });
+
+      if(user){
         this.router.navigateByUrl('/');
-        }
-      }catch(error){
-        this.utilTool.presentAlert('Error',error,'ok');
       }
+
+    }catch(error){
+      this.utilTool.presentAlert('Error',error.message,'ok');
+    }
+    finally{
+      loading.dismiss();
+    }
   }
 
-  selectSexo(sexo_opction){
-    this.user_sexo = sexo_opction;
-    console.log(sexo_opction.detail.value);
-    console.log(sexo_opction);
-    console.log(sexo_opction.toElement.value);
+  value_sexo(e){
+    this.user_sexo = e.target.value;
+
   }
 
    verifiEmail(){
-    var campo:any;
-
     var coll_fb  = this.db.collection('usuario',ref => 
     ref.where('email','==',this.registerForm.get('email').value)).snapshotChanges().pipe(
       map(actions =>{
@@ -101,6 +125,8 @@ export class RegisterPage {
           return data;
         })
       })
-    ).subscribe(data => console.log(data[0]['email']));
+    ).subscribe(data => 
+      this.email_verifi = data[0]['email']
+    );
   }
 }
